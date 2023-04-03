@@ -1,27 +1,43 @@
 const request = require('postman-request');
 require('dotenv').config();
 
-// const getAPI_KEY = require('../app.js');
+const getWeather_details = require('./utils/getweather');
 
-// const WEATHER_API_KEY = getAPI_KEY();
+const location = process.argv[2]
 
-// console.log(WEATHER_API_KEY);
+if (!location) {
+    console.log('Please provide a specific location')
+} else {
+    getWeather_details(location, (error, data)=> {
+        if (error){
+            return error
+        } else {
+            console.log(data);
+        }
+        
+    })
+}
 
-const url = 'http://api.weatherstack.com/current';
 
-const apiKey = process.env.WEATHER_API_KEY;
-const access = 'access_key='+ apiKey;
 
-let location = 'Liverpool';
-const query = 'query='+ location
 
-const unit = 'units=m'
 
-const link = `${url}?${access}&${query}&${unit}`
 
-request({url:link, json:true}, (error, response)=> {
-    let feels_like = response.body.current.feelslike;
-    let temp = response.body.current.temperature;
-    let weather_description = response.body.current.weather_descriptions;
-    console.log(`The current tmeprature is ${temp} degrees. However, it feels like ${feels_like} degrees, although its a bit ${weather_description[0]}.`);
-})
+
+//Using Radar API
+// const radURL = "https://api.radar.io/v1/search/autocomplete"
+
+// const radPlace = '841+Broadway'
+// const lat_lon = '40.70390%2C-73.98670'
+
+// const radQuery = '?query='+ radPlace
+// const near = '&near='+ lat_lon
+
+// const radAPI = `Authorization: ${process.env.RADAR_API_KEY}`
+
+// const radLink = `${radURL,radQuery,near,radAPI}`;
+
+// "https://api.radar.io/v1/search/autocomplete?query=841+Broadway&near=40.70390%2C-73.98670&-HAuthorization:prj_test_sk_5e627d0dccaf9bd3fc38f9a432402f7a40351d7a"
+
+
+// 'https://api.radar.io/v1/users-HAuthorization:prj_test_sk_5e627d0dccaf9bd3fc38f9a432402f7a40351d7a'
